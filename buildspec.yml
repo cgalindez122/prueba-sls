@@ -10,13 +10,15 @@ phases:
       python: 3.10
     commands:
       - CURRENT_BRANCH=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\///g')
-      - npm install serverless@3.35.0 -g
+      - npm install -g serverless
 
   build:
     commands:
       - npm i
       - echo $CURRENT_BRANCH
-      - serverless package --stage $CURRENT_BRANCH
+      #- serverless package --stage $CURRENT_BRANCH
+      - serverless package --stage $CURRENT_BRANCH --compile-functions
+
       - |
         AFFECTED_FUNCTIONS=$(serverless package --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: functions/).*?(?=/)')
         echo "Affected functions: $AFFECTED_FUNCTIONS"
