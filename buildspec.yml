@@ -16,19 +16,24 @@ phases:
   pre_build:
     commands:
       # Add your custom script to identify changed functions and output them to a file or environment variable
-      - export CHANGED_FUNCTIONS=$(python identify_changed_functions.py)
-      - echo "Changed functions: $CHANGED_FUNCTIONS"
+      - 'export CHANGED_FUNCTIONS=$(python identify_changed_functions.py)'
+      - 'echo "Changed functions: $CHANGED_FUNCTIONS"'
 
 
   build:
     commands:
-      - npm i
-      - echo $CURRENT_BRANCH
-      #- serverless deploy --stage $CURRENT_BRANCH
-      - if [ -n "$CHANGED_FUNCTIONS" ]; then for func in $CHANGED_FUNCTIONS; do serverless deploy --function $func --stage $CURRENT_BRANCH; done; else serverless deploy --stage $CURRENT_BRANCH; fi
-
-
-
-
+      - 'npm i'
+      - 'echo $CURRENT_BRANCH'
+      # This is a commented-out command for future use
+      #- 'serverless deploy --stage $CURRENT_BRANCH'
+      - >
+        if [ -n "$CHANGED_FUNCTIONS" ]; then 
+          for func in $CHANGED_FUNCTIONS; 
+          do 
+            serverless deploy --function $func --stage $CURRENT_BRANCH; 
+          done; 
+        else 
+          serverless deploy --stage $CURRENT_BRANCH; 
+        fi
 
 
