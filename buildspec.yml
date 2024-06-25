@@ -18,7 +18,7 @@ phases:
       - echo $CURRENT_BRANCH
       - serverless package --stage $CURRENT_BRANCH
       - |
-        AFFECTED_FUNCTIONS=$(serverless package --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: ).*')
+        AFFECTED_FUNCTIONS=$(serverless package --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: functions/).*?(?=/)')
         echo "Affected functions: $AFFECTED_FUNCTIONS"
         for FUNCTION in $AFFECTED_FUNCTIONS; do
           serverless deploy function --function $FUNCTION --stage $CURRENT_BRANCH
