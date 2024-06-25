@@ -1,0 +1,27 @@
+service: EvaluateTest
+app: Testpy
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.10
+  stage: dev
+  region: 'us-east-1'
+
+  timeout: 300 # 300 secs -> 5 min
+
+functions:
+
+  lambdaFunction1:
+    memorySize: 1024
+    timeout: 600
+    handler: functions/lambda1/handler.handler
+  lambdaFunction2:
+    memorySize: 1024
+    timeout: 600
+    handler: functions/lambda2/handler.handler
+
+
+plugins:
+  - serverless-python-requirements

@@ -1,0 +1,18 @@
+version: 0.2
+
+env:
+  variables:
+    PROVIDER_REGION: "us-east-1"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.10
+    commands:
+      - CURRENT_BRANCH=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\///g')
+      - npm install serverless@3.35.0 -g
+
+  build:
+    commands:
+      - npm i
+      - serverless deploy --stage $CURRENT_BRANCH
