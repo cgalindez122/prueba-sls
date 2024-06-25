@@ -7,9 +7,10 @@ def get_last_deployment_commit_id():
     return last_commit_id
 
 def get_changed_functions(base_ref):
+    print("Base ref:", base_ref)
     # Get list of changed files compared to base_ref
     changed_files = subprocess.check_output(['git', 'diff', '--name-only', base_ref]).decode().splitlines()
-
+    print("Changed files:", changed_files)
     # Extract the unique directories of changed files
     changed_dirs = {file.split('/functions')[0] for file in changed_files}
     return changed_dirs
