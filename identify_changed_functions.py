@@ -1,15 +1,10 @@
 import subprocess
 
 def get_last_deployment_commit_id():
-    # Example command to get the latest tag. Adjust according to your tagging strategy.
-    # This command gets the latest tag by date.
-    latest_tag_command = "git describe --tags `git rev-list --tags --max-count=1`"
-    latest_tag = subprocess.check_output(latest_tag_command, shell=True).decode().strip()
-
-    # Get the commit ID of the latest tag
-    commit_id_command = f"git rev-list -n 1 {latest_tag}"
-    commit_id = subprocess.check_output(commit_id_command, shell=True).decode().strip()
-    return commit_id
+    # Command to get the commit ID of the last commit on the main branch
+    last_commit_command = "git rev-parse main"
+    last_commit_id = subprocess.check_output(last_commit_command, shell=True).decode().strip()
+    return last_commit_id
 
 def get_changed_functions(base_ref):
     # Get list of changed files compared to base_ref
