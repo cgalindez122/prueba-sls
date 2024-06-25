@@ -16,12 +16,13 @@ phases:
     commands:
       - npm i
       - echo $CURRENT_BRANCH
-      - serverless package --package-path package.zip --stage $CURRENT_BRANCH
+      - serverless package --stage $CURRENT_BRANCH
       - |
-        AFFECTED_FUNCTIONS=$(serverless package --package-path package.zip --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: ).*')
+        AFFECTED_FUNCTIONS=$(serverless package --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: ).*')
         for FUNCTION in $AFFECTED_FUNCTIONS; do
-          serverless deploy function --function $FUNCTION --package package.zip --stage $CURRENT_BRANCH
+          serverless deploy function --function $FUNCTION --stage $CURRENT_BRANCH
         done
+
 
 
 
