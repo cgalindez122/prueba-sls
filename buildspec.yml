@@ -15,4 +15,5 @@ phases:
   build:
     commands:
       - npm i
+      - echo $CURRENT_BRANCH
       - serverless deploy --stage $CURRENT_BRANCH
