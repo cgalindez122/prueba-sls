@@ -1,0 +1,20 @@
+{
+    "name": "test-sls",
+    "version": "1.0.0",
+    "description": "Serverless trading bot",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "CarlosG",
+    "license": "ISC",
+    "devDependencies": {
+      "serverless-local-schedule": "^0.1.7",
+      "serverless-offline": "^8.7.0",
+      "serverless-wsgi": "^3.0.2"
+    },
+    "dependencies": {
+      "serverless-python-requirements": "^5.4.0"
+    }
+  }
+  
