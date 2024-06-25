@@ -13,19 +13,19 @@ phases:
       - CURRENT_BRANCH=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\///g')
       - npm install serverless@3.35.0 -g
 
+  pre_build:
+    commands:
+      # Add your custom script to identify changed functions and output them to a file or environment variable
+      - export CHANGED_FUNCTIONS=$(python identify_changed_functions.py)
+      - echo "Changed functions: $CHANGED_FUNCTIONS"
+
+
   build:
     commands:
       - npm i
       - echo $CURRENT_BRANCH
-      #- serverless package --stage $CURRENT_BRANCH
-      - serverless package --stage $CURRENT_BRANCH --compile-functions
-
-      - |
-        AFFECTED_FUNCTIONS=$(serverless package --stage $CURRENT_BRANCH --compile-functions | grep -oP '(?<=Compiling function: functions/).*?(?=/)')
-        echo "Affected functions: $AFFECTED_FUNCTIONS"
-        for FUNCTION in $AFFECTED_FUNCTIONS; do
-          serverless deploy function --function $FUNCTION --stage $CURRENT_BRANCH
-        done
+      #- serverless deploy --stage $CURRENT_BRANCH
+      - if [ -n "$CHANGED_FUNCTIONS" ]; then for func in $CHANGED_FUNCTIONS; do serverless deploy --function $func --stage $CURRENT_BRANCH; done; else serverless deploy --stage $CURRENT_BRANCH; fi
 
 
 
